@@ -64,6 +64,7 @@ void list<T>::push_back(const T& value) {
 
 template <typename T>
 void list<T>::pop_back() {
+	if (count == 0) return;
 	node* delete_node = head->prev;
 	delete_node->prev->next = head;
 	head->prev = delete_node->prev;
