@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LIST_HPP
+#define LIST_HPP
 
 #include <iostream>
 
@@ -28,6 +29,7 @@ public:
 	void push_back(const T& value);
 	void pop_back();
 	void clear();
+
 	void print() const;
 };
 
@@ -71,9 +73,8 @@ void list<T>::pop_back() {
 
 template <typename T>
 void list<T>::clear() {
-	head->prev->next = nullptr;
 	node* current = head->next;
-	for (node* next; current; current = next) {
+	for (node* next; current != head; current = next) {
 		next = current->next;
 		delete current;
 	}
@@ -85,9 +86,11 @@ void list<T>::clear() {
 template <typename T>
 void list<T>::print() const {
 	node* current = head->next;
-	while (current != head) {
+	for (node* next; current != head; current = next) {
+		next = current->next;
 		std::cout << current->value << " ";
-		current = current->next;
 	}
 	std::cout << std::endl;
 }
+
+#endif LIST_HPP
