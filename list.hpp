@@ -71,10 +71,10 @@ template <typename T>
 list<T>::~list() { clear(); delete head; }
 
 template <typename T>
-iterator<T> list<T>::begin() const { return iterator(head->next); }
+iterator<T> list<T>::begin() const { return iterator<T>(head->next); }
 
 template <typename T>
-iterator<T> list<T>::end() const { return iterator(head); }
+iterator<T> list<T>::end() const { return iterator<T>(head); }
 
 template <typename T>
 size_t list<T>::size() const { return count; }
@@ -87,7 +87,7 @@ const T& list<T>::back() const { return head->prev->value; }
 
 template <typename T>
 void list<T>::push_back(const T& value) {
-	node* new_node = new node(head, head->prev, value);
+	node<T>* new_node = new node<T>(head, head->prev, value);
 	head->prev->next = new_node;
 	head->prev = new_node;
 	++count;
@@ -96,7 +96,7 @@ void list<T>::push_back(const T& value) {
 template <typename T>
 void list<T>::pop_back() {
 	if (count == 0) return;
-	node* delete_node = head->prev;
+	node<T>* delete_node = head->prev;
 	delete_node->prev->next = head;
 	head->prev = delete_node->prev;
 	delete delete_node;
@@ -105,8 +105,8 @@ void list<T>::pop_back() {
 
 template <typename T>
 void list<T>::clear() {
-	node* current = head->next;
-	for (node* next; current != head; current = next) {
+	node<T>* current = head->next;
+	for (node<T>* next; current != head; current = next) {
 		next = current->next;
 		delete current;
 	}
