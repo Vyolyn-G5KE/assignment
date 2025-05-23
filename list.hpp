@@ -1,8 +1,6 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include <iostream>
-
 template <typename T>
 class list {
 private:
@@ -15,12 +13,26 @@ private:
 		node(node* next, node* prev, const T& value);
 	};
 
+	class iterator {
+	public:
+		iterator(node* current);
+
+		const T& operator*() const;
+		iterator& operator++();
+		bool operator!=(const iterator& other) const;
+
+		node* current;
+	};
+
 	node* head;
 	size_t count;
 
 public:
 	list();
 	~list();
+
+	iterator begin() const;
+	iterator end() const;
 
 	size_t size() const;
 	bool empty() const;
@@ -29,8 +41,6 @@ public:
 	void push_back(const T& value);
 	void pop_back();
 	void clear();
-
-	void print() const;
 };
 
 template <typename T>
@@ -40,10 +50,28 @@ template <typename T>
 list<T>::node::node(node* next, node* prev, const T& value) : next(next), prev(prev), value(value) {}
 
 template <typename T>
+list<T>::iterator::iterator(node* current) : current(current) {}
+
+template <typename T>
+const T& list<T>::iterator::operator*() const { return current->value; }
+
+template <typename T>
+typename list<T>::iterator& list<T>::iterator::operator++() { current = current->next; return *this; }
+
+template <typename T>
+bool list<T>::iterator::operator!=(const iterator& other) const { return current != other.current; }
+
+template <typename T>
 list<T>::list() : head(new node()), count(0) {}
 
 template <typename T>
 list<T>::~list() { clear(); delete head; }
+
+template <typename T>
+typename list<T>::iterator list<T>::begin() const { return iterator(head->next); }
+
+template <typename T>
+typename list<T>::iterator list<T>::end() const { return iterator(head); }
 
 template <typename T>
 size_t list<T>::size() const { return count; }
@@ -82,16 +110,6 @@ void list<T>::clear() {
 	head->next = head;
 	head->prev = head;
 	count = 0;
-}
-
-template <typename T>
-void list<T>::print() const {
-	node* current = head->next;
-	for (node* next; current != head; current = next) {
-		next = current->next;
-		std::cout << current->value << " ";
-	}
-	std::cout << std::endl;
 }
 
 #endif LIST_HPP
