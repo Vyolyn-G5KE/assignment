@@ -102,7 +102,7 @@ void list<T>::push_front(const T& value) {
 template <typename T>
 void list<T>::pop_front() {
 	if (count == 0) return;
-	node<T>* delete_node = head->prev;
+	node<T>* delete_node = head->next;
 	delete_node->prev->next = delete_node->next;
 	delete_node->next->prev = delete_node->prev;
 	delete delete_node;
@@ -120,7 +120,7 @@ void list<T>::push_back(const T& value) {
 template <typename T>
 void list<T>::pop_back() {
 	if (count == 0) return;
-	node<T>* delete_node = head->next;
+	node<T>* delete_node = head->prev;
 	delete_node->prev->next = delete_node->next;
 	delete_node->next->prev = delete_node->prev;
 	delete delete_node;
@@ -139,4 +139,4 @@ void list<T>::clear() {
 	count = 0;
 }
 
-#endif LIST_HPP
+#endif // LIST_HPP

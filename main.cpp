@@ -1,7 +1,6 @@
 #include <iostream>
-#include "list.hpp"
+#include "game.hpp"
 
 int main() {
-	list<size_t> list;
-	std::cout << list.back();
+
 }
