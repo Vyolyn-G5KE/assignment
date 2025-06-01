@@ -1,11 +1,13 @@
 #ifndef LIST_HPP
 #define LIST_HPP
 
+#include <cstddef>
+
 template <typename T>
 struct node {
-	node* next;
-	node* prev;
-	T value;
+	node* next{};
+	node* prev{};
+	T value{};
 
 	node();
 	node(node* next, node* prev, const T& value);
@@ -21,7 +23,7 @@ public:
 	bool operator!=(const iterator& other) const;
 
 private:
-	node<T>* current;
+	node<T>* current{};
 };
 
 template <typename T>
@@ -33,7 +35,7 @@ public:
 	iterator<T> begin() const;
 	iterator<T> end() const;
 
-	size_t size() const;
+	std::size_t size() const;
 	bool empty() const;
 	const T& front() const;
 	const T& back() const;
@@ -45,12 +47,12 @@ public:
 	void clear();
 
 private:
-	node<T>* head;
-	size_t count;
+	node<T>* head{};
+	std::size_t count{};
 };
 
 template <typename T>
-node<T>::node() : next{ this }, prev{ this }, value{} {}
+node<T>::node() : next{ this }, prev{ this } {}
 
 template <typename T>
 node<T>::node(node* next, node* prev, const T& value) : next{ next }, prev{ prev }, value{ value } {}
@@ -68,19 +70,19 @@ template <typename T>
 bool iterator<T>::operator!=(const iterator& other) const { return current != other.current; }
 
 template <typename T>
-list<T>::list() : head(new node<T>{}), count{ 0 } {}
+list<T>::list() : head(new node<T>{}) {}
 
 template <typename T>
 list<T>::~list() { clear(); delete head; }
 
 template <typename T>
-iterator<T> list<T>::begin() const { return iterator<T>{head->next}; }
+iterator<T> list<T>::begin() const { return iterator<T>{ head->next }; }
 
 template <typename T>
-iterator<T> list<T>::end() const { return iterator<T>{head}; }
+iterator<T> list<T>::end() const { return iterator<T>{ head }; }
 
 template <typename T>
-size_t list<T>::size() const { return count; }
+std::size_t list<T>::size() const { return count; }
 
 template <typename T>
 bool list<T>::empty() const { return count == 0; }
