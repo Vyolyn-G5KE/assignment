@@ -1,5 +1,5 @@
-#ifndef LIST_HPP
-#define LIST_HPP
+#ifndef LIST_HPP_
+#define LIST_HPP_
 
 #include <cstddef>
 
@@ -16,14 +16,14 @@ struct node {
 template <typename T>
 class iterator {
 public:
-	iterator(node<T>* current);
+	iterator(node<T>* node);
 
 	const T& operator*() const;
 	iterator& operator++();
 	bool operator!=(const iterator& other) const;
 
 private:
-	node<T>* current{};
+	node<T>* node_{};
 };
 
 template <typename T>
@@ -47,8 +47,8 @@ public:
 	void clear();
 
 private:
-	node<T>* head{};
-	std::size_t count{};
+	node<T>* head_{};
+	std::size_t size_{};
 };
 
 template <typename T>
@@ -58,88 +58,88 @@ template <typename T>
 node<T>::node(node* next, node* prev, const T& value) : next{ next }, prev{ prev }, value{ value } {}
 
 template <typename T>
-iterator<T>::iterator(node<T>* current) : current{ current } {}
+iterator<T>::iterator(node<T>* node) : node_{ node } {}
 
 template <typename T>
-const T& iterator<T>::operator*() const { return current->value; }
+const T& iterator<T>::operator*() const { return node_->value; }
 
 template <typename T>
-iterator<T>& iterator<T>::operator++() { current = current->next; return *this; }
+iterator<T>& iterator<T>::operator++() { node_ = node_->next; return *this; }
 
 template <typename T>
-bool iterator<T>::operator!=(const iterator& other) const { return current != other.current; }
+bool iterator<T>::operator!=(const iterator& other) const { return node_ != other.node_; }
 
 template <typename T>
-list<T>::list() : head(new node<T>()) {}
+list<T>::list() : head_{ new node<T>() } {}
 
 template <typename T>
-list<T>::~list() { clear(); delete head; }
+list<T>::~list() { clear(); delete head_; }
 
 template <typename T>
-iterator<T> list<T>::begin() const { return iterator<T>(head->next); }
+iterator<T> list<T>::begin() const { return iterator<T>(head_->next); }
 
 template <typename T>
-iterator<T> list<T>::end() const { return iterator<T>(head); }
+iterator<T> list<T>::end() const { return iterator<T>(head_); }
 
 template <typename T>
-std::size_t list<T>::size() const { return count; }
+std::size_t list<T>::size() const { return size_; }
 
 template <typename T>
-bool list<T>::empty() const { return count == 0; }
+bool list<T>::empty() const { return size_ == 0; }
 
 template <typename T>
-const T& list<T>::front() const { return head->next->value; }
+const T& list<T>::front() const { return head_->next->value; }
 
 template <typename T>
-const T& list<T>::back() const { return head->prev->value; }
+const T& list<T>::back() const { return head_->prev->value; }
 
 template <typename T>
 void list<T>::push_front(const T& value) {
-	node<T>* new_node = new node<T>(head->next, head, value);
+	node<T>* new_node = new node<T>(head_->next, head_, value);
 	new_node->prev->next = new_node;
 	new_node->next->prev = new_node;
-	++count;
+	++size_;
 }
 
 template <typename T>
 void list<T>::pop_front() {
-	if (count == 0) return;
-	node<T>* delete_node = head->next;
+	if (empty()) return;
+	node<T>* delete_node = head_->next;
 	delete_node->prev->next = delete_node->next;
 	delete_node->next->prev = delete_node->prev;
 	delete delete_node;
-	--count;
+	--size_;
 }
 
 template <typename T>
 void list<T>::push_back(const T& value) {
-	node<T>* new_node = new node<T>(head, head->prev, value);
+	node<T>* new_node = new node<T>(head_, head_->prev, value);
 	new_node->prev->next = new_node;
 	new_node->next->prev = new_node;
-	++count;
+	++size_;
 }
 
 template <typename T>
 void list<T>::pop_back() {
-	if (count == 0) return;
-	node<T>* delete_node = head->prev;
+	if (empty()) return;
+	node<T>* delete_node = head_->prev;
 	delete_node->prev->next = delete_node->next;
 	delete_node->next->prev = delete_node->prev;
 	delete delete_node;
-	--count;
+	--size_;
 }
 
 template <typename T>
 void list<T>::clear() {
-	head->prev->next = nullptr;
-	node<T>* current = head->next;
+	head_->prev->next = nullptr;
+	node<T>* current = head_->next;
 	for (node<T>* next{}; current; current = next) {
 		next = current->next;
 		delete current;
 	}
-	head->next = head;
-	head->prev = head;
-	count = 0;
+	head_->next = head_;
+	head_->prev = head_;
+	size_ = 0;
 }
 
-#endif // LIST_HPP
+#endif  // LIST_HPP_
