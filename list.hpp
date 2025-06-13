@@ -4,36 +4,36 @@
 #include <cstddef>
 
 template <typename T>
-struct node {
-	node* next{};
-	node* prev{};
+struct node_t {
+	node_t* next{};
+	node_t* prev{};
 	T value{};
 
-	node();
-	node(node* next, node* prev, const T& value);
+	node_t();
+	node_t(node_t* next, node_t* prev, const T& value);
 };
 
 template <typename T>
-class iterator {
+class iterator_t {
 public:
-	iterator(node<T>* node);
+	iterator_t(node_t<T>* node);
 
 	const T& operator*() const;
-	iterator& operator++();
-	bool operator!=(const iterator& other) const;
+	iterator_t& operator++();
+	bool operator!=(const iterator_t& other) const;
 
 private:
-	node<T>* node_{};
+	node_t<T>* node_{};
 };
 
 template <typename T>
-class list {
+class list_t {
 public:
-	list();
-	~list();
+	list_t();
+	~list_t();
 
-	iterator<T> begin() const;
-	iterator<T> end() const;
+	iterator_t<T> begin() const;
+	iterator_t<T> end() const;
 
 	std::size_t size() const;
 	bool empty() const;
@@ -47,64 +47,63 @@ public:
 	void clear();
 
 private:
-	node<T>* head_{};
+	node_t<T>* head_{};
 	std::size_t size_{};
 };
 
 template <typename T>
-node<T>::node() : next{ this }, prev{ this } {}
+node_t<T>::node_t() : next{ this }, prev{ this } {}
 
 template <typename T>
-node<T>::node(node* next, node* prev, const T& value) : next{ next }, prev{ prev }, value{ value } {}
+node_t<T>::node_t(node_t* next, node_t* prev, const T& value) : next{ next }, prev{ prev }, value{ value } {}
 
 template <typename T>
-iterator<T>::iterator(node<T>* node) : node_{ node } {}
+iterator_t<T>::iterator_t(node_t<T>* node) : node_{ node } {}
 
 template <typename T>
-const T& iterator<T>::operator*() const { return node_->value; }
+const T& iterator_t<T>::operator*() const { return node_->value; }
 
 template <typename T>
-iterator<T>& iterator<T>::operator++() { node_ = node_->next; return *this; }
+iterator_t<T>& iterator_t<T>::operator++() { node_ = node_->next; return *this; }
 
 template <typename T>
-bool iterator<T>::operator!=(const iterator& other) const { return node_ != other.node_; }
+bool iterator_t<T>::operator!=(const iterator_t& other) const { return node_ != other.node_; }
 
 template <typename T>
-list<T>::list() : head_{ new node<T>() } {}
+list_t<T>::list_t() : head_{ new node_t<T>() } {}
 
 template <typename T>
-list<T>::~list() { clear(); delete head_; }
+list_t<T>::~list_t() { clear(); delete head_; }
 
 template <typename T>
-iterator<T> list<T>::begin() const { return iterator<T>(head_->next); }
+iterator_t<T> list_t<T>::begin() const { return iterator_t<T>(head_->next); }
 
 template <typename T>
-iterator<T> list<T>::end() const { return iterator<T>(head_); }
+iterator_t<T> list_t<T>::end() const { return iterator_t<T>(head_); }
 
 template <typename T>
-std::size_t list<T>::size() const { return size_; }
+std::size_t list_t<T>::size() const { return size_; }
 
 template <typename T>
-bool list<T>::empty() const { return size_ == 0; }
+bool list_t<T>::empty() const { return size_ == 0; }
 
 template <typename T>
-const T& list<T>::front() const { return head_->next->value; }
+const T& list_t<T>::front() const { return head_->next->value; } // if (empty()) return;
 
 template <typename T>
-const T& list<T>::back() const { return head_->prev->value; }
+const T& list_t<T>::back() const { return head_->prev->value; } // if (empty()) return;
 
 template <typename T>
-void list<T>::push_front(const T& value) {
-	node<T>* new_node = new node<T>(head_->next, head_, value);
+void list_t<T>::push_front(const T& value) {
+	node_t<T>* new_node = new node_t<T>(head_->next, head_, value);
 	new_node->prev->next = new_node;
 	new_node->next->prev = new_node;
 	++size_;
 }
 
 template <typename T>
-void list<T>::pop_front() {
-	if (empty()) return;
-	node<T>* delete_node = head_->next;
+void list_t<T>::pop_front() { // if (empty()) return;
+	node_t<T>* delete_node = head_->next;
 	delete_node->prev->next = delete_node->next;
 	delete_node->next->prev = delete_node->prev;
 	delete delete_node;
@@ -112,17 +111,16 @@ void list<T>::pop_front() {
 }
 
 template <typename T>
-void list<T>::push_back(const T& value) {
-	node<T>* new_node = new node<T>(head_, head_->prev, value);
+void list_t<T>::push_back(const T& value) {
+	node_t<T>* new_node = new node_t<T>(head_, head_->prev, value);
 	new_node->prev->next = new_node;
 	new_node->next->prev = new_node;
 	++size_;
 }
 
 template <typename T>
-void list<T>::pop_back() {
-	if (empty()) return;
-	node<T>* delete_node = head_->prev;
+void list_t<T>::pop_back() { // if (empty()) return;
+	node_t<T>* delete_node = head_->prev;
 	delete_node->prev->next = delete_node->next;
 	delete_node->next->prev = delete_node->prev;
 	delete delete_node;
@@ -130,12 +128,12 @@ void list<T>::pop_back() {
 }
 
 template <typename T>
-void list<T>::clear() {
+void list_t<T>::clear() {
 	head_->prev->next = nullptr;
-	node<T>* current = head_->next;
-	for (node<T>* next{}; current; current = next) {
-		next = current->next;
-		delete current;
+	node_t<T>* node = head_->next;
+	for (node_t<T>* next{}; node; node = next) {
+		next = node->next;
+		delete node;
 	}
 	head_->next = head_;
 	head_->prev = head_;
