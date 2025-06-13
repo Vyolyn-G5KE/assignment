@@ -95,35 +95,35 @@ const T& list_t<T>::back() const { return head_->prev->value; } // if (empty()) 
 
 template <typename T>
 void list_t<T>::push_front(const T& value) {
-	node_t<T>* new_node = new node_t<T>(head_->next, head_, value);
-	new_node->prev->next = new_node;
-	new_node->next->prev = new_node;
+	node_t<T>* node = new node_t<T>(head_->next, head_, value);
+	node->prev->next = node;
+	node->next->prev = node;
 	++size_;
 }
 
 template <typename T>
 void list_t<T>::pop_front() { // if (empty()) return;
-	node_t<T>* delete_node = head_->next;
-	delete_node->prev->next = delete_node->next;
-	delete_node->next->prev = delete_node->prev;
-	delete delete_node;
+	node_t<T>* node = head_->next;
+	node->prev->next = node->next;
+	node->next->prev = node->prev;
+	delete node;
 	--size_;
 }
 
 template <typename T>
 void list_t<T>::push_back(const T& value) {
-	node_t<T>* new_node = new node_t<T>(head_, head_->prev, value);
-	new_node->prev->next = new_node;
-	new_node->next->prev = new_node;
+	node_t<T>* node = new node_t<T>(head_, head_->prev, value);
+	node->prev->next = node;
+	node->next->prev = node;
 	++size_;
 }
 
 template <typename T>
 void list_t<T>::pop_back() { // if (empty()) return;
-	node_t<T>* delete_node = head_->prev;
-	delete_node->prev->next = delete_node->next;
-	delete_node->next->prev = delete_node->prev;
-	delete delete_node;
+	node_t<T>* node = head_->prev;
+	node->prev->next = node->next;
+	node->next->prev = node->prev;
+	delete node;
 	--size_;
 }
 
