@@ -3,17 +3,19 @@
 
 #include <cstdint>
 
+#include "math.hpp"
+
 class board_t {
 public:
-    board_t(std::int32_t rows, std::int32_t cols);
+    board_t(const vec2i_t& size);
     ~board_t();
 
-    bool blocked(std::int32_t row, std::int32_t col) const;
+    bool get_blocked(const vec2i_t& pos) const;
+    void set_blocked(const vec2i_t& pos, bool value);
 
 private:
     bool** blocked_{};
-    std::int32_t rows_{};
-    std::int32_t cols_{};
+    vec2i_t size_{};
 };
 
 #endif  // BOARD_HPP

@@ -23,6 +23,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="list.hpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="math.hpp" />
     <ClCompile Include="scout.cpp" />
   </ItemGroup>
   <ItemGroup>

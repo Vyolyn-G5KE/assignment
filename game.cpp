@@ -1,5 +1,5 @@
 #include "game.hpp"
 
-game_t::game_t(std::int32_t rows, std::int32_t cols) : board_{ rows, cols }, scout_{ rows, cols } {
+game_t::game_t(const vec2i_t& size) : board_{ size }, scout_{ size }, target_{ size } {
 
 }
