@@ -9,8 +9,6 @@ public:
     ~board_t();
 
     bool blocked(std::int32_t row, std::int32_t col) const;
-    std::int32_t rows() const;
-    std::int32_t cols() const;
 
 private:
     bool** blocked_{};

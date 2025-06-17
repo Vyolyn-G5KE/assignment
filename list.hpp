@@ -5,12 +5,12 @@
 
 template <typename T>
 struct node_t {
+	node_t();
+	node_t(node_t* next, node_t* prev, const T& value);
+
 	node_t* next_{};
 	node_t* prev_{};
 	T value_{};
-
-	node_t();
-	node_t(node_t* next, node_t* prev, const T& value);
 };
 
 template <typename T>
