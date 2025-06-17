@@ -1,8 +1,6 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-#include <cstdint>
-
 #include "math.hpp"
 
 class board_t {

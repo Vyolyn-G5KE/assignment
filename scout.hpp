@@ -1,8 +1,6 @@
 #ifndef SCOUT_HPP
 #define SCOUT_HPP
 
-#include <cstdint>
-
 #include "math.hpp"
 #include "list.hpp"
 
@@ -16,10 +14,8 @@ public:
     bool get_visited(const vec2i_t& pos) const;
     void set_visited(const vec2i_t& pos, bool value);
 
-    void move(const vec2i_t& delta);
-
 private:
-    vec2i_t pos_{};
+    vec2i_t position_{};
     list_t<vec2i_t> path_{};
     bool** visited_{};
     vec2i_t size_;
