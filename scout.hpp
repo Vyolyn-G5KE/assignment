@@ -1,30 +1,37 @@
 #ifndef SCOUT_HPP
 #define SCOUT_HPP
 
+#include <iostream>
+#include <cstdint>
+
 #include "list.hpp"
-#include "board.hpp"
 
-class board;
+class board_t;
 
-struct position {
-    int x;
-    int y;
+struct position_t {
+    std::int32_t x{};
+    std::int32_t y{};
 
-    position() : x(0), y(0) {}
-    position(int x, int y) : x(x), y(y) {}
+    position_t();
+    position_t(std::int32_t x, std::int32_t y);
 };
 
-class scout {
-private:
-    const board& b;
-    list<position> path;
-    bool** visited;
-    int rows;
-    int cols;
-
+class scout_t {
 public:
-    scout(const board& b, position begin, int r, int c);
-    ~scout();
+    scout_t(board_t& board, const position_t& begin);
+    ~scout_t();
+
+    bool visited(std::int32_t row, std::int32_t col) const;
+    void move(const position_t& dest);
+
+    void print() const;
+
+private:
+    board_t& board_;
+    list_t<position_t> path_{};
+    bool** visited_{};
+    std::int32_t rows_{};
+    std::int32_t cols_{};
 };
 
-#endif // SCOUT_HPP
+#endif  // SCOUT_HPP

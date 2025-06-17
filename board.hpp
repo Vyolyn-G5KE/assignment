@@ -1,15 +1,21 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 
-class board {
-private:
-    bool** blocked;
-    int rows;
-    int cols;
+#include <cstdint>
 
+class board_t {
 public:
-    board(int r, int c);
-    ~board();
+    board_t(std::int32_t rows, std::int32_t cols);
+    ~board_t();
+
+    bool blocked(std::int32_t row, std::int32_t col) const;
+    std::int32_t rows() const;
+    std::int32_t cols() const;
+
+private:
+    bool** blocked_{};
+    std::int32_t rows_{};
+    std::int32_t cols_{};
 };
 
-#endif // BOARD_HPP
+#endif  // BOARD_HPP
