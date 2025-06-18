@@ -1,14 +1,18 @@
 #include "scout.hpp"
 
-scout_t::scout_t(const vec2i_t& size) : size_{ size } {
-    visited_ = new bool* [size_.x] {};
-    for (std::int32_t i = 0; i < size_.x; ++i) {
-        visited_[i] = new bool[size_.y] {};
+#include "board.hpp"
+
+scout_t::scout_t(const board_t& board) : board_{ board } {
+    vec2i_t size = board_.get_size();
+    visited_ = new bool* [size.y] {};
+    for (std::int32_t i = 0; i < size.y; ++i) {
+        visited_[i] = new bool[size.x] {};
     }
 }
 
 scout_t::~scout_t() {
-    for (std::int32_t i = 0; i < size_.x; ++i) {
+    vec2i_t size = board_.get_size();
+    for (std::int32_t i = 0; i < size.y; ++i) {
         delete[] visited_[i];
     }
     delete[] visited_;
@@ -23,9 +27,9 @@ void scout_t::set_position(const vec2i_t& pos) {
 }
 
 bool scout_t::get_visited(const vec2i_t& pos) const {
-    return visited_[pos.x][pos.y];
+    return visited_[pos.y][pos.x];
 }
 
 void scout_t::set_visited(const vec2i_t& pos, bool value) {
-    visited_[pos.x][pos.y] = value;
+    visited_[pos.y][pos.x] = value;
 }

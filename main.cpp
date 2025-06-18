@@ -3,6 +3,9 @@
 #include "game.hpp"
 
 int main() {
-	game_t game({ 25,25 });
+	std::int32_t num{};
+	std::cin >> num;
+	game_t game({ num,num });
+	game.print();
 	return 0;
 }
