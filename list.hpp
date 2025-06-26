@@ -70,7 +70,7 @@ template <typename T>
 bool iterator_t<T>::operator!=(const iterator_t& other) const { return node_ != other.node_; }
 
 template <typename T>
-list_t<T>::list_t() : head_(new node_t<T>()) {}
+list_t<T>::list_t() : head_(new node_t<T>()), size(0) {}
 
 template <typename T>
 list_t<T>::~list_t() { clear(); delete head_; }
