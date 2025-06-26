@@ -24,6 +24,7 @@ game_t::game_t(vec2i_t size) : board_(size), scout_(board_) {
 }
 
 void game_t::start_game_menu() {
+    scout_.get_path().push_back(scout_.get_scout());
     while (true) {
         scout_.print_board();
         std::cout << "\nStart Game Menu:\n";
@@ -40,9 +41,16 @@ void game_t::start_game_menu() {
 
         switch (subchoice) {
         case 'w':
+            scout_.explore({ 0, 1 });
+            break;
         case 's':
+            scout_.explore({ 0, -1 });
+            break;
         case 'a':
+            scout_.explore({ -1, 0 });
+            break;
         case 'd':
+            scout_.explore({ 1, 0 });
             break;
         case '2':
             scout_.backtrack();
@@ -94,6 +102,7 @@ void game_t::run() {
 
         switch (choice) {
         case '1':
+            start_game_menu();
             break;
         case '2':
             auto_solve_menu();

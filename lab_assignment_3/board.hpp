@@ -7,7 +7,7 @@ class board_t {
 public:
     board_t(vec2i_t size);
     ~board_t();
-
+    
     vec2i_t size() const;
     bool get_blocked(vec2i_t pos) const;
     void set_blocked(vec2i_t pos, bool value);

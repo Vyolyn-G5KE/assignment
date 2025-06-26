@@ -29,9 +29,9 @@ void scout_t::set_scout(vec2i_t pos) {
 }
 
 bool scout_t::explore(vec2i_t w) {
-    if (board_.get_blocked(w))
+    if (board_.get_blocked(path_.back() + w))
         return false;
-    path_.push_back(w);
+    path_.push_back(path_.back() + w);
     return true;
 }
 
@@ -79,11 +79,11 @@ void scout_t::print_board() {
         for (std::int32_t x = 0; x < size.x; ++x) {
             vec2i_t pos = { x, y };
 
-            if (board_.get_target() == pos) {
-                std::cout << "\x1b[92mT \x1b[0m";
-            }
-            else if (scout_ == pos) {
+            if (path_.back() == pos) {
                 std::cout << "\x1b[93mS \x1b[0m";
+            }
+            else if (board_.get_target() == pos) {
+                std::cout << "\x1b[92mT \x1b[0m";
             }
             else if (path[pos.y][pos.x]) {
                 std::cout << "* ";

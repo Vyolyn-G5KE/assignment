@@ -1,5 +1,6 @@
 #include "board.hpp"
 
+#include <cstdlib>
 #include <vector>
 #include <algorithm>
 #include <random>
