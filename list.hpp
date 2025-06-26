@@ -8,9 +8,9 @@ struct node_t {
 	node_t();
 	node_t(node_t* next, node_t* prev, const T& value);
 
-	node_t* next{};
-	node_t* prev{};
-	T value{};
+	node_t* next;
+	node_t* prev;
+	T value;
 };
 
 template <typename T>
@@ -23,7 +23,7 @@ public:
 	bool operator!=(const iterator_t& other) const;
 
 private:
-	node_t<T>* node_{};
+	node_t<T>* node_;
 };
 
 template <typename T>
@@ -47,18 +47,18 @@ public:
 	void clear();
 
 private:
-	node_t<T>* head_{};
-	std::size_t size_{};
+	node_t<T>* head_;
+	std::size_t size_;
 };
 
 template <typename T>
-node_t<T>::node_t() : next{ this }, prev{ this } {}
+node_t<T>::node_t() : next(this), prev(this), value() {}
 
 template <typename T>
-node_t<T>::node_t(node_t* next, node_t* prev, const T& value) : next{ next }, prev{ prev }, value{ value } {}
+node_t<T>::node_t(node_t* next, node_t* prev, const T& value) : next(next), prev(prev), value(value) {}
 
 template <typename T>
-iterator_t<T>::iterator_t(node_t<T>* node) : node_{ node } {}
+iterator_t<T>::iterator_t(node_t<T>* node) : node_(node) {}
 
 template <typename T>
 const T& iterator_t<T>::operator*() const { return node_->value; }
@@ -70,7 +70,7 @@ template <typename T>
 bool iterator_t<T>::operator!=(const iterator_t& other) const { return node_ != other.node_; }
 
 template <typename T>
-list_t<T>::list_t() : head_{ new node_t<T>() } {}
+list_t<T>::list_t() : head_(new node_t<T>()) {}
 
 template <typename T>
 list_t<T>::~list_t() { clear(); delete head_; }
