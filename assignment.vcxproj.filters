@@ -15,33 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="list.hpp">
+    <ClCompile Include="lab_assignment_3\list.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="lab_assignment_3\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scout.cpp">
+    <ClCompile Include="lab_assignment_3\scout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="board.cpp">
+    <ClCompile Include="lab_assignment_3\board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
+    <ClCompile Include="lab_assignment_3\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="math.hpp">
+    <ClCompile Include="lab_assignment_3\math.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="scout.hpp">
+    <ClInclude Include="lab_assignment_3\scout.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="board.hpp">
+    <ClInclude Include="lab_assignment_3\board.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game.hpp">
+    <ClInclude Include="lab_assignment_3\game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

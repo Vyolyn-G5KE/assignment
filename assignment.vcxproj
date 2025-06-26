@@ -19,17 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="board.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="list.hpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="math.hpp" />
-    <ClCompile Include="scout.cpp" />
+    <ClCompile Include="lab_assignment_3\board.cpp" />
+    <ClCompile Include="lab_assignment_3\game.cpp" />
+    <ClCompile Include="lab_assignment_3\list.hpp" />
+    <ClCompile Include="lab_assignment_3\main.cpp" />
+    <ClCompile Include="lab_assignment_3\math.hpp" />
+    <ClCompile Include="lab_assignment_3\scout.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="board.hpp" />
-    <ClInclude Include="game.hpp" />
-    <ClInclude Include="scout.hpp" />
+    <ClInclude Include="lab_assignment_3\board.hpp" />
+    <ClInclude Include="lab_assignment_3\game.hpp" />
+    <ClInclude Include="lab_assignment_3\scout.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
