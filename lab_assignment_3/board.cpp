@@ -1,15 +1,9 @@
 #include "board.hpp"
 
 #include <cstdlib>
-#include <vector>
-#include <algorithm>
-#include <random>
 
 board_t::board_t(vec2i_t size) : size_(size), blocked_(), target_() {
     blocked_ = new bool[size_.y * size_.x];
-    for (std::int32_t i = 0; i < size_.y * size_.x; ++i) {
-        blocked_[i] = true;
-    }
 }
 
 board_t::~board_t() {
@@ -39,11 +33,17 @@ void board_t::set_target(vec2i_t pos) {
 void board_t::generate(vec2i_t v) {
     set_blocked(v, false);
 
-    std::vector<vec2i_t> directions = {
+    vec2i_t directions[] = {
         {0, 1}, {0, -1}, {-1, 0}, {1, 0}
     };
 
-    std::shuffle(directions.begin(), directions.end(), std::default_random_engine(std::rand()));
+    for (std::size_t i = 3; i > 0; --i) {
+        std::size_t j = std::rand() % (i + 1);
+
+        vec2i_t temp = directions[i];
+        directions[i] = directions[j];
+        directions[j] = temp;
+    }
 
     for (const vec2i_t& dir : directions) {
         vec2i_t w = { v.x + dir.x * 2, v.y + dir.y * 2 };
@@ -57,4 +57,22 @@ void board_t::generate(vec2i_t v) {
         set_blocked(v + dir, false);
         generate(w);
     }
+}
+
+void board_t::reset() {
+    for (std::int32_t i = 0; i < size_.y * size_.x; ++i) {
+        blocked_[i] = true;
+    }
+
+    vec2i_t board_pos = {
+        (std::rand() % (size_.x / 2)) * 2 + 1,
+        (std::rand() % (size_.y / 2)) * 2 + 1
+    };
+    generate(board_pos);
+
+    vec2i_t target_pos = {
+        (std::rand() % (size_.x / 2)) * 2 + 1,
+        (std::rand() % (size_.y / 2)) * 2 + 1
+    };
+    set_target(board_pos);
 }

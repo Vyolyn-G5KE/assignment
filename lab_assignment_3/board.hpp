@@ -14,6 +14,7 @@ public:
     vec2i_t get_target() const;
     void set_target(vec2i_t pos);
     void generate(vec2i_t v);
+    void reset();
 
 private:
     vec2i_t size_;

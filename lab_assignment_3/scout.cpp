@@ -1,11 +1,10 @@
 #include "scout.hpp"
 
 #include <iostream>
-#include <vector>
 #include "board.hpp"
 
 scout_t::scout_t(const board_t& board) : board_(board), visited_(), scout_(), path_() {
-    visited_ = new bool[board_.size().y * board_.size().x]();
+    visited_ = new bool[board_.size().y * board_.size().x];
 }
 
 scout_t::~scout_t() {
@@ -28,11 +27,16 @@ void scout_t::set_scout(vec2i_t pos) {
     scout_ = pos;
 }
 
+list_t<vec2i_t>& scout_t::get_path() {
+    return path_;
+}
+
 bool scout_t::explore(vec2i_t w) {
-    if (get_visited(path_.back() + w) || board_.get_blocked(path_.back() + w))
+    if (get_visited(get_scout() + w) || board_.get_blocked(get_scout() + w))
         return false;
-    set_visited(path_.back() + w, true);
-    path_.push_back(path_.back() + w);
+    set_visited(get_scout() + w, true);
+    path_.push_back(get_scout() + w);
+    set_scout(get_scout() + w);
     return true;
 }
 
@@ -43,18 +47,21 @@ bool scout_t::backtrack() {
     {0, 1}, {0, -1}, {-1, 0}, {1, 0}
     };
     for (const vec2i_t& dir : directions) {
-        if (!get_visited(path_.back() + dir) && !board_.get_blocked(path_.back() + dir))
-            return false;
+        if (get_visited(get_scout() + dir) || board_.get_blocked(get_scout() + dir))
+            continue;
+        return false;
     }
     path_.pop_back();
+    set_scout(path_.back());
     return true;
 }
 
 bool scout_t::solve(vec2i_t v) {
-    if (v == board_.get_target())
-        return true;
     set_visited(v, true);
     path_.push_back(v);
+    set_scout(v);
+    if (v == board_.get_target())
+        return true;
     vec2i_t directions[] = {
     {0, 1}, {0, -1}, {-1, 0}, {1, 0}
     };
@@ -68,39 +75,53 @@ bool scout_t::solve(vec2i_t v) {
             return true;
     }
     path_.pop_back();
+    set_scout(path_.back());
     return false;
+}
+
+void scout_t::reset() {
+    for (std::int32_t i = 0; i < board_.size().y * board_.size().x; ++i) {
+        visited_[i] = false;
+    }
+
+    path_.clear();
+
+    vec2i_t scout_pos = {
+        (std::rand() % (board_.size().x / 2)) * 2 + 1,
+        (std::rand() % (board_.size().y / 2)) * 2 + 1
+    };
+    set_scout(scout_pos);
 }
 
 void scout_t::print_board() {
     vec2i_t size = board_.size();
 
-    bool** path = new bool* [size.y];
-    for (int y = 0; y < size.y; ++y) {
-        path[y] = new bool[size.x] {};
-    }
-
-    for (const vec2i_t& pos : path_) {
-        path[pos.y][pos.x] = true;
-    }
-
-    for (std::int32_t y = 0; y < size.y; ++y) {
+    for (std::int32_t y = size.y - 1; y >= 0; --y) {
         for (std::int32_t x = 0; x < size.x; ++x) {
             vec2i_t pos = { x, y };
 
-            if (path_.back() == pos) {
+            bool is_path = false;
+            for (const vec2i_t& p : path_) {
+                if (p.x == pos.x && p.y == pos.y) {
+                    is_path = true;
+                    break;
+                }
+            }
+
+            if (scout_ == pos) {
                 std::cout << "\x1b[93mS \x1b[0m";
             }
             else if (board_.get_target() == pos) {
                 std::cout << "\x1b[92mT \x1b[0m";
             }
-            else if (path[pos.y][pos.x]) {
-                std::cout << "* ";
+            else if (is_path) {
+                std::cout << "\x1b[94m* \x1b[0m";
             }
             else if (board_.get_blocked(pos)) {
-                std::cout << "X ";
+                std::cout << "\x1b[91mX \x1b[0m";
             }
             else if (visited_[pos.y * board_.size().x + pos.x]) {
-                std::cout << "- ";
+                std::cout << "\x1b[95m- \x1b[0m";
             }
             else {
                 std::cout << ". ";
@@ -108,16 +129,17 @@ void scout_t::print_board() {
         }
         std::cout << "\n";
     }
-
-    for (int y = 0; y < size.y; ++y) {
-        delete[] path[y];
-    }
-    delete[] path;
 }
 
 void scout_t::print_path() {
-    for (const vec2i_t& path : path_) {
-        std::cout << "(" << path.x << "," << path.y << "), ";
+    std::cout << "Path: [";
+    bool first = true;
+    for (const vec2i_t& p : path_) {
+        if (!first) {
+            std::cout << ", ";
+        }
+        std::cout << "(" << p.x << "," << p.y << ")";
+        first = false;
     }
-    std::cout << '\n';
+    std::cout << "]\n";
 }

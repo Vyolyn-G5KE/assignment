@@ -3,31 +3,17 @@
 #include <iostream>
 #include <cstdlib>
  
-game_t::game_t(vec2i_t size) : board_(size), scout_(board_) {
-    vec2i_t board_pos = {
-            (std::rand() % (board_.size().x / 2)) * 2 + 1,
-            (std::rand() % (board_.size().y / 2)) * 2 + 1
-    };
-    board_.generate(board_pos);
-
-    vec2i_t target_pos = {
-            (std::rand() % (board_.size().x / 2)) * 2 + 1,
-            (std::rand() % (board_.size().y / 2)) * 2 + 1
-    };
-    board_.set_target(target_pos);
-
-    vec2i_t scout_pos = {
-            (std::rand() % (board_.size().x / 2)) * 2 + 1,
-            (std::rand() % (board_.size().y / 2)) * 2 + 1
-    };
-    scout_.set_scout(scout_pos);
-    scout_.set_visited(scout_pos, true);
-    scout_.get_path().push_back(scout_pos);
-}
+game_t::game_t(vec2i_t size) : board_(size), scout_(board_) {}
 
 void game_t::start_game_menu() {
-    while (true) {
-        scout_.print_board();
+    board_.reset();
+    scout_.reset();
+    scout_.set_visited(scout_.get_scout(), true);
+    scout_.get_path().push_back(scout_.get_scout());
+    system("cls");
+    scout_.print_board();
+
+    while (scout_.get_scout() != board_.get_target()) {
         std::cout << "\nStart Game Menu:\n";
         std::cout << "w. Up\n";
         std::cout << "s. Down\n";
@@ -44,33 +30,57 @@ void game_t::start_game_menu() {
         switch (subchoice) {
         case 'w':
             scout_.explore(vec2i_t{ 0, 1 });
+            system("cls");
+            scout_.print_board();
             break;
         case 's':
             scout_.explore(vec2i_t{ 0, -1 });
+            system("cls");
+            scout_.print_board();
             break;
         case 'a':
             scout_.explore(vec2i_t{ -1, 0 });
+            system("cls");
+            scout_.print_board();
             break;
         case 'd':
             scout_.explore(vec2i_t{ 1, 0 });
+            system("cls");
+            scout_.print_board();
             break;
         case 'b':
             scout_.backtrack();
+            system("cls");
+            scout_.print_board();
             break;
         case 'p':
+            system("cls");
+            scout_.print_board();
             scout_.print_path();
             break;
+        case 'q':
+            system("cls");
+            scout_.print_board();
+            return;
         default:
+            system("cls");
+            scout_.print_board();
             std::cout << "Invalid choice. Try again.\n";
             break;
         }
     }
+    scout_.print_path();
+    std::cout << "You Win!\n";
 }
 
 void game_t::auto_solve_menu() {
+    board_.reset();
+    scout_.reset();
     scout_.solve(scout_.get_scout());
-    while (true) {
-        scout_.print_board();
+    system("cls");
+    scout_.print_board();
+
+    while (scout_.get_scout() != board_.get_target()) {
         std::cout << "\nAuto-Solve Menu:\n";
         std::cout << "1. View the current path\n";
         std::cout << "2. Quit\n";
@@ -81,25 +91,33 @@ void game_t::auto_solve_menu() {
 
         switch (subchoice) {
         case '1':
+            system("cls");
+            scout_.print_board();
             scout_.print_path();
             break;
         case '2':
             std::cout << "Quitting game.\n";
             return;
         default:
+            system("cls");
+            scout_.print_board();
             std::cout << "Invalid choice. Try again.\n";
             break;
         }
     }
+    scout_.print_path();
+    std::cout << "You Win!\n";
 }
 
 void game_t::run() {
     while (true) {
-        scout_.print_board();
-        std::cout << "\nMenu:\n";
+        std::cout << "===========================\n";
+        std::cout << "|     MAZE GAME SYSTEM     |\n";
+        std::cout << "===========================\n";
         std::cout << "1. Start Game\n";
         std::cout << "2. Auto Solve\n";
         std::cout << "3. Quit\n";
+        std::cout << "===========================\n";
         std::cout << "Enter your choice: ";
 
         char choice;
