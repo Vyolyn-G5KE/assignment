@@ -29,8 +29,9 @@ void scout_t::set_scout(vec2i_t pos) {
 }
 
 bool scout_t::explore(vec2i_t w) {
-    if (board_.get_blocked(path_.back() + w))
+    if (get_visited(path_.back() + w) || board_.get_blocked(path_.back() + w))
         return false;
+    set_visited(path_.back() + w, true);
     path_.push_back(path_.back() + w);
     return true;
 }
@@ -38,6 +39,13 @@ bool scout_t::explore(vec2i_t w) {
 bool scout_t::backtrack() {
     if (path_.empty())
         return false;
+    vec2i_t directions[] = {
+    {0, 1}, {0, -1}, {-1, 0}, {1, 0}
+    };
+    for (const vec2i_t& dir : directions) {
+        if (!get_visited(path_.back() + dir) && !board_.get_blocked(path_.back() + dir))
+            return false;
+    }
     path_.pop_back();
     return true;
 }
@@ -92,7 +100,7 @@ void scout_t::print_board() {
                 std::cout << "X ";
             }
             else if (visited_[pos.y * board_.size().x + pos.x]) {
-                std::cout << "0 ";
+                std::cout << "- ";
             }
             else {
                 std::cout << ". ";

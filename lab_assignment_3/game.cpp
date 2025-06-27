@@ -21,19 +21,21 @@ game_t::game_t(vec2i_t size) : board_(size), scout_(board_) {
             (std::rand() % (board_.size().y / 2)) * 2 + 1
     };
     scout_.set_scout(scout_pos);
+    scout_.set_visited(scout_pos, true);
+    scout_.get_path().push_back(scout_pos);
 }
 
 void game_t::start_game_menu() {
-    scout_.get_path().push_back(scout_.get_scout());
     while (true) {
         scout_.print_board();
         std::cout << "\nStart Game Menu:\n";
-        std::cout << "1. Up\n";
-        std::cout << "1. Down\n";
-        std::cout << "1. Left\n";
-        std::cout << "1. Right\n";
-        std::cout << "2. Backtrack\n";
-        std::cout << "3. Quit\n";
+        std::cout << "w. Up\n";
+        std::cout << "s. Down\n";
+        std::cout << "a. Left\n";
+        std::cout << "d. Right\n";
+        std::cout << "b. Backtrack\n";
+        std::cout << "p. Path\n";
+        std::cout << "q. Quit\n";
         std::cout << "Enter your choice: ";
 
         char subchoice;
@@ -41,20 +43,23 @@ void game_t::start_game_menu() {
 
         switch (subchoice) {
         case 'w':
-            scout_.explore({ 0, 1 });
+            scout_.explore(vec2i_t{ 0, 1 });
             break;
         case 's':
-            scout_.explore({ 0, -1 });
+            scout_.explore(vec2i_t{ 0, -1 });
             break;
         case 'a':
-            scout_.explore({ -1, 0 });
+            scout_.explore(vec2i_t{ -1, 0 });
             break;
         case 'd':
-            scout_.explore({ 1, 0 });
+            scout_.explore(vec2i_t{ 1, 0 });
             break;
-        case '2':
+        case 'b':
             scout_.backtrack();
-            return;
+            break;
+        case 'p':
+            scout_.print_path();
+            break;
         default:
             std::cout << "Invalid choice. Try again.\n";
             break;
