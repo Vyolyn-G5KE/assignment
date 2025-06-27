@@ -93,7 +93,7 @@ void scout_t::reset() {
     set_scout(scout_pos);
 }
 
-void scout_t::print_board() {
+void scout_t::print_board(bool solve) {
     vec2i_t size = board_.size();
 
     for (std::int32_t y = size.y - 1; y >= 0; --y) {
@@ -108,7 +108,7 @@ void scout_t::print_board() {
                 }
             }
 
-            if (scout_ == pos) {
+            if ((solve && path_.front() == pos) || (!solve && scout_ == pos)) {
                 std::cout << "\x1b[93mS \x1b[0m";
             }
             else if (board_.get_target() == pos) {

@@ -20,7 +20,7 @@ public:
     bool backtrack();
     bool solve(vec2i_t v);
     void reset();
-    void print_board();
+    void print_board(bool solve);
     void print_path();
 
 private:

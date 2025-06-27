@@ -11,7 +11,7 @@ void game_t::start_game_menu() {
     scout_.set_visited(scout_.get_scout(), true);
     scout_.get_path().push_back(scout_.get_scout());
     system("cls");
-    scout_.print_board();
+    scout_.print_board(false);
 
     while (scout_.get_scout() != board_.get_target()) {
         std::cout << "\nStart Game Menu:\n";
@@ -31,40 +31,40 @@ void game_t::start_game_menu() {
         case 'w':
             scout_.explore(vec2i_t{ 0, 1 });
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             break;
         case 's':
             scout_.explore(vec2i_t{ 0, -1 });
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             break;
         case 'a':
             scout_.explore(vec2i_t{ -1, 0 });
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             break;
         case 'd':
             scout_.explore(vec2i_t{ 1, 0 });
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             break;
         case 'b':
             scout_.backtrack();
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             break;
         case 'p':
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             scout_.print_path();
             break;
         case 'q':
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             return;
         default:
             system("cls");
-            scout_.print_board();
+            scout_.print_board(false);
             std::cout << "Invalid choice. Try again.\n";
             break;
         }
@@ -78,7 +78,7 @@ void game_t::auto_solve_menu() {
     scout_.reset();
     scout_.solve(scout_.get_scout());
     system("cls");
-    scout_.print_board();
+    scout_.print_board(true);
 
     while (scout_.get_scout() != board_.get_target()) {
         std::cout << "\nAuto-Solve Menu:\n";
@@ -92,7 +92,7 @@ void game_t::auto_solve_menu() {
         switch (subchoice) {
         case '1':
             system("cls");
-            scout_.print_board();
+            scout_.print_board(true);
             scout_.print_path();
             break;
         case '2':
@@ -100,7 +100,7 @@ void game_t::auto_solve_menu() {
             return;
         default:
             system("cls");
-            scout_.print_board();
+            scout_.print_board(true);
             std::cout << "Invalid choice. Try again.\n";
             break;
         }
