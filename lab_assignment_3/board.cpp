@@ -74,5 +74,5 @@ void board_t::reset() {
         (std::rand() % (size_.x / 2)) * 2 + 1,
         (std::rand() % (size_.y / 2)) * 2 + 1
     };
-    set_target(board_pos);
+    set_target(target_pos);
 }
